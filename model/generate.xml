@@ -100,6 +100,10 @@
     <argument name="RIPEMD160" stdin="true" type="hash160" description="The Base16 hash to convert. If not specified the value is read from STDIN."/>
   </command>
 
+  <command symbol="address-to-key" output="base16" category="WALLET" description="Derive the payments search key of a payment address.">
+    <argument name="PAYMENT_ADDRESS" stdin="true" type="payment_address" description="The payment address. If not specified the address is read from STDIN." />
+  </command>
+
   <command symbol="base16-decode" output="raw" category="ENCODING" description="Convert a Base16 value to binary data.">
     <argument name="BASE16" stdin="true" type="base16" description="The Base16 value to decode as binary data. If not specified the value is read from STDIN." />
   </command>
@@ -280,7 +284,20 @@
 
   <command symbol="fetch-balance" output="balance_row" category="ONLINE" network="true" description="Get the balance in satoshi of a payment address. Requires a Libbitcoin server connection.">
     <option name="format" type="encoding" description="The output format. Options are 'info', 'json' and 'xml', defaults to 'info'." />
-    <argument name="PAYMENT_ADDRESS" stdin="true" type="payment_address" description="The payment address. If not specified the address is read from STDIN." />
+    <argument name="hash" stdin="true" type="hash256" description="The Base16 payments search key. If not specified the key is read from STDIN."/>
+    <define name="BX_FETCH_BALANCE_INVALID_ARGUMENTS" value="A valid payments search key must be provided." />
+  </command>
+
+  <command symbol="fetch-block" category="ONLINE" output="block" network="true" description="Get the block from the specified hash or height. Height is ignored if both are specified. Requires a Libbitcoin server connection.">
+    <option name="format" type="encoding" description="The output format. Options are 'info', 'json' and 'xml', defaults to 'info'." />
+    <option name="hash" shortcut="s" type="hash256" description="The Base16 block hash."/>
+    <option name="height" shortcut="t" type="uint32_t" description="The block height."/>
+  </command>
+
+  <command symbol="fetch-block-hashes" category="ONLINE" output="hash_list" network="true" description="Get the block from the specified hash or height. Height is ignored if both are specified. Requires a Libbitcoin server connection.">
+    <option name="format" type="encoding" description="The output format. Options are 'info', 'json' and 'xml', defaults to 'info'." />
+    <option name="hash" shortcut="s" type="hash256" description="The Base16 block hash."/>
+    <option name="height" shortcut="t" type="uint32_t" description="The block height."/>
   </command>
 
   <command symbol="fetch-header" category="ONLINE" output="header" network="true" description="Get the block header from the specified hash or height. Height is ignored if both are specified. Requires a Libbitcoin server connection.">
@@ -289,18 +306,23 @@
     <option name="height" shortcut="t" type="uint32_t" description="The block height."/>
   </command>
 
+  <command symbol="fetch-block-height" category="ONLINE" output="uint32_t" network="true" description="Get the block height from the specified hash. Requires a Libbitcoin server connection.">
+    <argument name="hash" stdin="true" type="hash256" description="The Base16 block hash."/>
+  </command>
+
   <command symbol="fetch-height" formerly="fetch-last-height" output="uint32_t" category="ONLINE" network="true" description="Get the last block height. Requires a Libbitcoin server connection.">
     <argument name="server-url" description="The URL of the Libbitcoin server to use. If not specified the URL is obtained from configuration settings or defaults."/>
     <argument name="public-key" description="The public key of the Libbitcoin server. If not specified the key is obtained from configuration settings or defaults."/>
   </command>
 
-  <command symbol="fetch-history" output="history_row" category="ONLINE" network="true" description="Get list of output points, values, and spends for a payment address. Requires a Libbitcoin server connection.">
+  <command symbol="fetch-history" output="history_row" category="ONLINE" network="true" description="Get list of output points, values, and spends for a payment key. Requires a Libbitcoin server connection.">
     <option name="format" type="encoding" description="The output format. Options are 'info', 'json' and 'xml', defaults to 'info'." />
-    <argument name="PAYMENT_ADDRESS" stdin="true" type="payment_address" description="The payment address. If not specified the address is read from STDIN." />
+    <argument name="hash" stdin="true" type="hash256" description="The Base16 payments search key. If not specified the key is read from STDIN."/>
+    <define name="BX_FETCH_HISTORY_INVALID_ARGUMENTS" value="A valid payments search key must be provided." />
   </command>
 
   <command symbol="fetch-public-key" formerly="get-pubkey" output="ec_public" category="ONLINE" stub="true" network="true" description="Get the EC public key of the address, if it exists on the blockchain. Requires a Libbitcoin server connection.">
-    <argument name="PAYMENT_ADDRESS" stdin="true" type="payment_address" description="The payment address of the public key. If not specified the address is read from STDIN."/>
+    <argument name="hash" stdin="true" type="hash256" description="The Base16 payments search key of the public key. If not specified the key is read from STDIN."/>
     <define name="BX_FETCH_PUBLIC_KEY_NOT_IMPLEMENTED" value="This command is not yet implemented." />
   </command>
 
@@ -329,7 +351,8 @@
     <option name="format" type="encoding" description="The output format. Options are 'info', 'json' and 'xml', defaults to 'info'." />
     <option name="algorithm" type="algorithm" description="The algorithm for unspent output selection. Options are 'greedy' and 'individual', defaults to 'greedy'." />
     <argument name="SATOSHI" type="uint64_t" required="true" description="The whole number of satoshi." />
-    <argument name="PAYMENT_ADDRESS" stdin="true" type="payment_address" description="The payment address. If not specified the address is read from STDIN." />
+    <argument name="hash" stdin="true" type="hash256" description="The Base16 payments search key. If not specified the key is read from STDIN."/>
+    <define name="BX_FETCH_BALANCE_INVALID_ARGUMENTS" value="A valid payments search key must be provided." />
   </command>
 
   <command symbol="hd-new" formerly="hd-seed" output="hd_private" category="WALLET" description="Create a new HD (BIP32) private key from entropy.">
@@ -430,17 +453,17 @@
   <command symbol="mnemonic-new" output="string" multipleX="true" category="WALLET" description="Create a mnemonic seed (BIP39) from entropy. WARNING: mnemonic should be created from properly generated entropy.">
     <option name="language" type="language" description="The language identifier of the mnemonic dictionary to use. Options are 'en', 'es', 'fr', 'it', 'ja', 'cs', 'ru', 'uk', 'zh_Hans', 'zh_Hant' and 'any', defaults to 'en'." />
     <argument name="SEED" stdin="true" type="base16" description="The Base16 entropy from which the mnemonic is created. The length must be evenly divisible by 32 bits. If not specified the entropy is read from STDIN." />
-    <define name="BX_EC_MNEMONIC_NEW_INVALID_SEED" value="The seed length in bytes is not evenly divisible by 32 bits." />
+    <define name="BX_MNEMONIC_NEW_INVALID_SEED" value="The seed length in bytes is not evenly divisible by 32 bits." />
   </command>
 
   <command symbol="mnemonic-to-seed" output="base16" category="WALLET" description="Convert a mnemonic seed (BIP39) to its numeric representation.">
     <option name="language" type="language" description="The language identifier of the dictionary of the mnemonic. Options are 'en', 'es', 'fr', 'it', 'ja', 'cs', 'ru', 'uk', 'zh_Hans', 'zh_Hant' and 'any', defaults to 'any'." />
     <option name="passphrase" type="string" description="An optional passphrase for converting the mnemonic to a seed." />
     <argument name="WORD" stdin="true" limit="-1" type="string" description="The set of words that that make up the mnemonic. If not specified the words are read from STDIN." />
-    <define name="BX_EC_MNEMONIC_TO_SEED_LENGTH_INVALID_SENTENCE" value="The number of words must be divisible by 3." />
-    <define name="BX_EC_MNEMONIC_TO_SEED_REQUIRES_ICU" value="The passphrase option requires an ICU build." />
-    <define name="BX_EC_MNEMONIC_TO_SEED_INVALID_IN_LANGUAGE" value="The specified words are not a valid mnemonic in the specified dictionary." />
-    <define name="BX_EC_MNEMONIC_TO_SEED_INVALID_IN_LANGUAGES" value="WARNING: The specified words are not a valid mnemonic in any supported dictionary." />
+    <define name="BX_MNEMONIC_TO_SEED_LENGTH_INVALID_SENTENCE" value="The number of words must be divisible by 3." />
+    <define name="BX_MNEMONIC_TO_SEED_REQUIRES_ICU" value="The passphrase option requires an ICU build." />
+    <define name="BX_MNEMONIC_TO_SEED_INVALID_IN_LANGUAGE" value="WARNING: The specified words are not a valid mnemonic in the specified dictionary." />
+    <define name="BX_MNEMONIC_TO_SEED_INVALID_IN_LANGUAGES" value="WARNING: The specified words are not a valid mnemonic in any supported dictionary." />
   </command>
 
   <command symbol="qrcode" category="WALLET" output="raw" description="Create a QRCODE image file for a payment address.">
@@ -477,6 +500,11 @@
   <command symbol="script-to-address" formerly="scripthash" output="payment_address" category="TRANSACTION" description="Create a BIP16 pay-to-script-hash address from a script.">
     <option name="version" type="byte" configuration="wallet.pay_to_script_hash_version" description="The desired pay-to-script-hash address version, defaults to 5." />
     <argument name="SCRIPT" stdin="true" type="script" description="The script to use in the address. Multiple tokens must be quoted. If not specified the script is read from STDIN."/>
+  </command>
+
+  <command symbol="script-to-key" output="base16" category="WALLET" description="Derive the payments search key of an output script.">
+    <option name="version" type="byte" configuration="wallet.pay_to_script_hash_version" description="The desired pay-to-script-hash address version, defaults to 5." />
+    <argument name="SCRIPT" stdin="true" type="script" description="The output script. Multiple tokens must be quoted. If not specified the script is read from STDIN."/>
   </command>
 
   <command symbol="seed" output="base16" category="WALLET" description="Generate a pseudorandom seed.">
@@ -619,11 +647,17 @@
     <define name="BX_VALIDATE_TX_INVALID" value="The transaction is invalid for the current state of the node: %1%." />
   </command>
 
-  <command symbol="watch-address" formerly="monitor" output="transaction" category="ONLINE" network="true" description="Watch the network for transactions in which an address participates. Requires a Libbitcoin server connection.">
+  <command symbol="version" output="string" category="ONLINE" network="true" description="Fetch and display the libbitcoin server and client versions. Requires a Libbitcoin server connection.">
+    <define name="BX_VERSION_FAILED" value="Failed to retrieve server version: %1%." />
+    <define name="BX_SERVER_VERSION" value="libbitcoin-server version: %1%." />
+    <define name="BX_EXPLORER_VERSION" value="libbitcoin-explorer version: %1%." />
+  </command>
+
+  <command symbol="watch-key" formerly="monitor" output="transaction" category="ONLINE" network="true" description="Watch the network for transactions in which a payment key participates. Requires a Libbitcoin server connection.">
     <option name="duration" type="uint32_t" default="600" description="The duration of the watch in seconds, defaults to 600." />
     <!--<option name="format" type="encoding" description="The output format. Options are 'info', 'json' and 'xml', defaults to 'info'." />-->
-    <argument name="PAYMENT_ADDRESS" stdin="true" type="payment_address" description="The participating payment address. If not specified the address is read from STDIN." />
-    <define name="BX_WATCH_ADDRESS_WAITING" value="Watching address: %1%..." />
+    <argument name="hash" stdin="true" type="hash256" description="The Base16 payments search key. If not specified the address is read from STDIN."/>
+    <define name="BX_WATCH_KEY_WAITING" value="Watching key: %1%..." />
   </command>
 
   <command symbol="watch-stealth" output="transaction" category="ONLINE" network="true" description="Watch the network for transactions by stealth prefix. Requires a Libbitcoin server connection.">

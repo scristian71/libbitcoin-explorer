@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
+ * Copyright (c) 2011-2019 libbitcoin developers (see AUTHORS)
  *
  * This file is part of libbitcoin.
  *
@@ -35,9 +35,11 @@
 namespace libbitcoin {
 namespace explorer {
 namespace commands {
+
 using namespace boost;
 using namespace bc::explorer::config;
 using namespace bc::network;
+using namespace bc::system;
 
 static std::promise<code> complete;
 
@@ -72,7 +74,7 @@ console_result send_tx_node::invoke(std::ostream& output, std::ostream& error)
     ////const auto& debug_file_name = get_network_debug_file_setting();
     ////const auto& error_file_name = get_network_error_file_setting();
 
-    network::settings settings(bc::config::settings::mainnet);
+    network::settings settings(system::config::settings::mainnet);
 
     // Manual connection only.
     settings.threads = 1;

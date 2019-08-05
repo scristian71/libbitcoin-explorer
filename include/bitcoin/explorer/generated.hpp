@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
+ * Copyright (c) 2011-2019 libbitcoin developers (see AUTHORS)
  *
  * This file is part of libbitcoin.
  *
@@ -26,6 +26,7 @@
 #include <bitcoin/explorer/commands/address-decode.hpp>
 #include <bitcoin/explorer/commands/address-embed.hpp>
 #include <bitcoin/explorer/commands/address-encode.hpp>
+#include <bitcoin/explorer/commands/address-to-key.hpp>
 #include <bitcoin/explorer/commands/base16-decode.hpp>
 #include <bitcoin/explorer/commands/base16-encode.hpp>
 #include <bitcoin/explorer/commands/base58-decode.hpp>
@@ -59,6 +60,9 @@
 #include <bitcoin/explorer/commands/electrum-new.hpp>
 #include <bitcoin/explorer/commands/electrum-to-seed.hpp>
 #include <bitcoin/explorer/commands/fetch-balance.hpp>
+#include <bitcoin/explorer/commands/fetch-block.hpp>
+#include <bitcoin/explorer/commands/fetch-block-hashes.hpp>
+#include <bitcoin/explorer/commands/fetch-block-height.hpp>
 #include <bitcoin/explorer/commands/fetch-header.hpp>
 #include <bitcoin/explorer/commands/fetch-height.hpp>
 #include <bitcoin/explorer/commands/fetch-history.hpp>
@@ -90,6 +94,7 @@
 #include <bitcoin/explorer/commands/script-decode.hpp>
 #include <bitcoin/explorer/commands/script-encode.hpp>
 #include <bitcoin/explorer/commands/script-to-address.hpp>
+#include <bitcoin/explorer/commands/script-to-key.hpp>
 #include <bitcoin/explorer/commands/seed.hpp>
 #include <bitcoin/explorer/commands/send-tx.hpp>
 #include <bitcoin/explorer/commands/send-tx-node.hpp>
@@ -112,7 +117,8 @@
 #include <bitcoin/explorer/commands/uri-decode.hpp>
 #include <bitcoin/explorer/commands/uri-encode.hpp>
 #include <bitcoin/explorer/commands/validate-tx.hpp>
-#include <bitcoin/explorer/commands/watch-address.hpp>
+#include <bitcoin/explorer/commands/version.hpp>
+#include <bitcoin/explorer/commands/watch-key.hpp>
 #include <bitcoin/explorer/commands/watch-stealth.hpp>
 #include <bitcoin/explorer/commands/watch-tx.hpp>
 #include <bitcoin/explorer/commands/wif-to-ec.hpp>

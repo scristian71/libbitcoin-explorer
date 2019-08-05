@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
+ * Copyright (c) 2011-2019 libbitcoin developers (see AUTHORS)
  *
  * This file is part of libbitcoin.
  *
@@ -39,6 +39,7 @@ void broadcast(const function<void(shared_ptr<command>)> func)
     func(make_shared<address_decode>());
     func(make_shared<address_embed>());
     func(make_shared<address_encode>());
+    func(make_shared<address_to_key>());
     func(make_shared<base16_decode>());
     func(make_shared<base16_encode>());
     func(make_shared<base58_decode>());
@@ -72,6 +73,9 @@ void broadcast(const function<void(shared_ptr<command>)> func)
     func(make_shared<electrum_new>());
     func(make_shared<electrum_to_seed>());
     func(make_shared<fetch_balance>());
+    func(make_shared<fetch_block>());
+    func(make_shared<fetch_block_hashes>());
+    func(make_shared<fetch_block_height>());
     func(make_shared<fetch_header>());
     func(make_shared<fetch_height>());
     func(make_shared<fetch_history>());
@@ -103,6 +107,7 @@ void broadcast(const function<void(shared_ptr<command>)> func)
     func(make_shared<script_decode>());
     func(make_shared<script_encode>());
     func(make_shared<script_to_address>());
+    func(make_shared<script_to_key>());
     func(make_shared<seed>());
     func(make_shared<send_tx>());
     func(make_shared<send_tx_node>());
@@ -125,7 +130,8 @@ void broadcast(const function<void(shared_ptr<command>)> func)
     func(make_shared<uri_decode>());
     func(make_shared<uri_encode>());
     func(make_shared<validate_tx>());
-    func(make_shared<watch_address>());
+    func(make_shared<version>());
+    func(make_shared<watch_key>());
     func(make_shared<watch_stealth>());
     func(make_shared<watch_tx>());
     func(make_shared<wif_to_ec>());
@@ -142,6 +148,8 @@ shared_ptr<command> find(const string& symbol)
         return make_shared<address_embed>();
     if (symbol == address_encode::symbol())
         return make_shared<address_encode>();
+    if (symbol == address_to_key::symbol())
+        return make_shared<address_to_key>();
     if (symbol == base16_decode::symbol())
         return make_shared<base16_decode>();
     if (symbol == base16_encode::symbol())
@@ -208,6 +216,12 @@ shared_ptr<command> find(const string& symbol)
         return make_shared<electrum_to_seed>();
     if (symbol == fetch_balance::symbol())
         return make_shared<fetch_balance>();
+    if (symbol == fetch_block::symbol())
+        return make_shared<fetch_block>();
+    if (symbol == fetch_block_hashes::symbol())
+        return make_shared<fetch_block_hashes>();
+    if (symbol == fetch_block_height::symbol())
+        return make_shared<fetch_block_height>();
     if (symbol == fetch_header::symbol())
         return make_shared<fetch_header>();
     if (symbol == fetch_height::symbol())
@@ -270,6 +284,8 @@ shared_ptr<command> find(const string& symbol)
         return make_shared<script_encode>();
     if (symbol == script_to_address::symbol())
         return make_shared<script_to_address>();
+    if (symbol == script_to_key::symbol())
+        return make_shared<script_to_key>();
     if (symbol == seed::symbol())
         return make_shared<seed>();
     if (symbol == send_tx::symbol())
@@ -314,8 +330,10 @@ shared_ptr<command> find(const string& symbol)
         return make_shared<uri_encode>();
     if (symbol == validate_tx::symbol())
         return make_shared<validate_tx>();
-    if (symbol == watch_address::symbol())
-        return make_shared<watch_address>();
+    if (symbol == version::symbol())
+        return make_shared<version>();
+    if (symbol == watch_key::symbol())
+        return make_shared<watch_key>();
     if (symbol == watch_stealth::symbol())
         return make_shared<watch_stealth>();
     if (symbol == watch_tx::symbol())
@@ -400,8 +418,8 @@ std::string formerly(const string& former)
         return tx_sign::symbol();
     if (former == validate_tx::formerly())
         return validate_tx::symbol();
-    if (former == watch_address::formerly())
-        return watch_address::symbol();
+    if (former == watch_key::formerly())
+        return watch_key::symbol();
     if (former == watch_tx::formerly())
         return watch_tx::symbol();
     if (former == wrap_decode::formerly())

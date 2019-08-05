@@ -10,6 +10,7 @@ _bx()
         address-decode
         address-embed
         address-encode
+        address-to-key
         base16-decode
         base16-encode
         base58-decode
@@ -43,6 +44,9 @@ _bx()
         electrum-new
         electrum-to-seed
         fetch-balance
+        fetch-block
+        fetch-block-hashes
+        fetch-block-height
         fetch-header
         fetch-height
         fetch-history
@@ -70,6 +74,7 @@ _bx()
         script-decode
         script-encode
         script-to-address
+        script-to-key
         seed
         send-tx
         send-tx-node
@@ -92,7 +97,8 @@ _bx()
         uri-decode
         uri-encode
         validate-tx
-        watch-address
+        version
+        watch-key
         watch-stealth
         watch-tx
         wif-to-ec

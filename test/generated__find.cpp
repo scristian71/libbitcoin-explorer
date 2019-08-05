@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
+ * Copyright (c) 2011-2019 libbitcoin developers (see AUTHORS)
  *
  * This file is part of libbitcoin.
  *
@@ -41,6 +41,11 @@ BOOST_AUTO_TEST_CASE(generated__find__address_embed__returns_object)
 BOOST_AUTO_TEST_CASE(generated__find__address_encode__returns_object)
 {
     BOOST_REQUIRE(find("address-encode") != nullptr);
+}
+
+BOOST_AUTO_TEST_CASE(generated__find__address_to_key__returns_object)
+{
+    BOOST_REQUIRE(find("address-to-key") != nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(generated__find__base16_decode__returns_object)
@@ -208,6 +213,21 @@ BOOST_AUTO_TEST_CASE(generated__find__fetch_balance__returns_object)
     BOOST_REQUIRE(find("fetch-balance") != nullptr);
 }
 
+BOOST_AUTO_TEST_CASE(generated__find__fetch_block__returns_object)
+{
+    BOOST_REQUIRE(find("fetch-block") != nullptr);
+}
+
+BOOST_AUTO_TEST_CASE(generated__find__fetch_block_hashes__returns_object)
+{
+    BOOST_REQUIRE(find("fetch-block-hashes") != nullptr);
+}
+
+BOOST_AUTO_TEST_CASE(generated__find__fetch_block_height__returns_object)
+{
+    BOOST_REQUIRE(find("fetch-block-height") != nullptr);
+}
+
 BOOST_AUTO_TEST_CASE(generated__find__fetch_header__returns_object)
 {
     BOOST_REQUIRE(find("fetch-header") != nullptr);
@@ -363,6 +383,11 @@ BOOST_AUTO_TEST_CASE(generated__find__script_to_address__returns_object)
     BOOST_REQUIRE(find("script-to-address") != nullptr);
 }
 
+BOOST_AUTO_TEST_CASE(generated__find__script_to_key__returns_object)
+{
+    BOOST_REQUIRE(find("script-to-key") != nullptr);
+}
+
 BOOST_AUTO_TEST_CASE(generated__find__seed__returns_object)
 {
     BOOST_REQUIRE(find("seed") != nullptr);
@@ -473,9 +498,14 @@ BOOST_AUTO_TEST_CASE(generated__find__validate_tx__returns_object)
     BOOST_REQUIRE(find("validate-tx") != nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(generated__find__watch_address__returns_object)
+BOOST_AUTO_TEST_CASE(generated__find__version__returns_object)
 {
-    BOOST_REQUIRE(find("watch-address") != nullptr);
+    BOOST_REQUIRE(find("version") != nullptr);
+}
+
+BOOST_AUTO_TEST_CASE(generated__find__watch_key__returns_object)
+{
+    BOOST_REQUIRE(find("watch-key") != nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(generated__find__watch_stealth__returns_object)

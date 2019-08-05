@@ -1,5 +1,5 @@
 ###############################################################################
-#  Copyright (c) 2014-2015 libbitcoin-explorer developers (see COPYING).
+#  Copyright (c) 2014-2019 libbitcoin-explorer developers (see COPYING).
 #
 #         GENERATED SOURCE CODE, DO NOT EDIT EXCEPT EXPERIMENTALLY
 #
@@ -45,6 +45,7 @@ src_libbitcoin_explorer_la_SOURCES = \
     src/commands/address-decode.cpp \
     src/commands/address-embed.cpp \
     src/commands/address-encode.cpp \
+    src/commands/address-to-key.cpp \
     src/commands/base16-decode.cpp \
     src/commands/base16-encode.cpp \
     src/commands/base58-decode.cpp \
@@ -78,6 +79,9 @@ src_libbitcoin_explorer_la_SOURCES = \
     src/commands/electrum-new.cpp \
     src/commands/electrum-to-seed.cpp \
     src/commands/fetch-balance.cpp \
+    src/commands/fetch-block-hashes.cpp \
+    src/commands/fetch-block-height.cpp \
+    src/commands/fetch-block.cpp \
     src/commands/fetch-header.cpp \
     src/commands/fetch-height.cpp \
     src/commands/fetch-history.cpp \
@@ -109,6 +113,7 @@ src_libbitcoin_explorer_la_SOURCES = \
     src/commands/script-decode.cpp \
     src/commands/script-encode.cpp \
     src/commands/script-to-address.cpp \
+    src/commands/script-to-key.cpp \
     src/commands/seed.cpp \
     src/commands/send-tx-node.cpp \
     src/commands/send-tx-p2p.cpp \
@@ -131,7 +136,8 @@ src_libbitcoin_explorer_la_SOURCES = \
     src/commands/uri-decode.cpp \
     src/commands/uri-encode.cpp \
     src/commands/validate-tx.cpp \
-    src/commands/watch-address.cpp \
+    src/commands/version.cpp \
+    src/commands/watch-key.cpp \
     src/commands/watch-stealth.cpp \
     src/commands/watch-tx.cpp \
     src/commands/wif-to-ec.cpp \
@@ -184,6 +190,7 @@ test_libbitcoin_explorer_test_SOURCES = \
     test/commands/address-decode.cpp \
     test/commands/address-embed.cpp \
     test/commands/address-encode.cpp \
+    test/commands/address-to-key.cpp \
     test/commands/base16-decode.cpp \
     test/commands/base16-encode.cpp \
     test/commands/base58-decode.cpp \
@@ -218,6 +225,7 @@ test_libbitcoin_explorer_test_SOURCES = \
     test/commands/electrum-new.cpp \
     test/commands/electrum-to-seed.cpp \
     test/commands/fetch-balance.cpp \
+    test/commands/fetch-block.cpp \
     test/commands/fetch-header.cpp \
     test/commands/fetch-height.cpp \
     test/commands/fetch-history.cpp \
@@ -249,6 +257,7 @@ test_libbitcoin_explorer_test_SOURCES = \
     test/commands/script-decode.cpp \
     test/commands/script-encode.cpp \
     test/commands/script-to-address.cpp \
+    test/commands/script-to-key.cpp \
     test/commands/seed.cpp \
     test/commands/send-tx-node.cpp \
     test/commands/send-tx-p2p.cpp \
@@ -271,7 +280,7 @@ test_libbitcoin_explorer_test_SOURCES = \
     test/commands/uri-decode.cpp \
     test/commands/uri-encode.cpp \
     test/commands/validate-tx.cpp \
-    test/commands/watch-address.cpp \
+    test/commands/watch-key.cpp \
     test/commands/watch-stealth.cpp \
     test/commands/watch-tx.cpp \
     test/commands/wif-to-ec.cpp \
@@ -306,6 +315,7 @@ include_bitcoin_explorer_commands_HEADERS = \
     include/bitcoin/explorer/commands/address-decode.hpp \
     include/bitcoin/explorer/commands/address-embed.hpp \
     include/bitcoin/explorer/commands/address-encode.hpp \
+    include/bitcoin/explorer/commands/address-to-key.hpp \
     include/bitcoin/explorer/commands/base16-decode.hpp \
     include/bitcoin/explorer/commands/base16-encode.hpp \
     include/bitcoin/explorer/commands/base58-decode.hpp \
@@ -339,6 +349,9 @@ include_bitcoin_explorer_commands_HEADERS = \
     include/bitcoin/explorer/commands/electrum-new.hpp \
     include/bitcoin/explorer/commands/electrum-to-seed.hpp \
     include/bitcoin/explorer/commands/fetch-balance.hpp \
+    include/bitcoin/explorer/commands/fetch-block-hashes.hpp \
+    include/bitcoin/explorer/commands/fetch-block-height.hpp \
+    include/bitcoin/explorer/commands/fetch-block.hpp \
     include/bitcoin/explorer/commands/fetch-header.hpp \
     include/bitcoin/explorer/commands/fetch-height.hpp \
     include/bitcoin/explorer/commands/fetch-history.hpp \
@@ -370,6 +383,7 @@ include_bitcoin_explorer_commands_HEADERS = \
     include/bitcoin/explorer/commands/script-decode.hpp \
     include/bitcoin/explorer/commands/script-encode.hpp \
     include/bitcoin/explorer/commands/script-to-address.hpp \
+    include/bitcoin/explorer/commands/script-to-key.hpp \
     include/bitcoin/explorer/commands/seed.hpp \
     include/bitcoin/explorer/commands/send-tx-node.hpp \
     include/bitcoin/explorer/commands/send-tx-p2p.hpp \
@@ -392,7 +406,9 @@ include_bitcoin_explorer_commands_HEADERS = \
     include/bitcoin/explorer/commands/uri-decode.hpp \
     include/bitcoin/explorer/commands/uri-encode.hpp \
     include/bitcoin/explorer/commands/validate-tx.hpp \
+    include/bitcoin/explorer/commands/version.hpp \
     include/bitcoin/explorer/commands/watch-address.hpp \
+    include/bitcoin/explorer/commands/watch-key.hpp \
     include/bitcoin/explorer/commands/watch-stealth.hpp \
     include/bitcoin/explorer/commands/watch-tx.hpp \
     include/bitcoin/explorer/commands/wif-to-ec.hpp \

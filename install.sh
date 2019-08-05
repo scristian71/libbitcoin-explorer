@@ -1,6 +1,6 @@
 #!/bin/bash
 ###############################################################################
-#  Copyright (c) 2014-2015 libbitcoin-explorer developers (see COPYING).
+#  Copyright (c) 2014-2019 libbitcoin-explorer developers (see COPYING).
 #
 #         GENERATED SOURCE CODE, DO NOT EDIT EXCEPT EXPERIMENTALLY
 #
@@ -443,9 +443,9 @@ SECP256K1_OPTIONS=(
 "--disable-tests" \
 "--enable-module-recovery")
 
-# Define bitcoin options.
+# Define bitcoin-system options.
 #------------------------------------------------------------------------------
-BITCOIN_OPTIONS=(
+BITCOIN_SYSTEM_OPTIONS=(
 "--without-tests" \
 "--without-examples" \
 "${with_boost}" \
@@ -575,9 +575,15 @@ build_from_tarball()
     # Join generated and command line options.
     local CONFIGURATION=("${OPTIONS[@]}" "$@")
 
-    configure_options "${CONFIGURATION[@]}"
-    make_jobs $JOBS --silent
-    make install
+    if [[ $ARCHIVE == $MBEDTLS_ARCHIVE ]]; then
+        make -j $JOBS lib
+        make DESTDIR=$PREFIX install
+    else
+        configure_options "${CONFIGURATION[@]}"
+        make_jobs $JOBS --silent
+        make install
+    fi
+
     configure_links
 
     # Enable shared only zlib build.
@@ -828,7 +834,7 @@ build_all()
     build_from_tarball_boost $BOOST_URL $BOOST_ARCHIVE bzip2 . $PARALLEL "$BUILD_BOOST" "${BOOST_OPTIONS[@]}"
     build_from_tarball $ZMQ_URL $ZMQ_ARCHIVE gzip . $PARALLEL "$BUILD_ZMQ" "${ZMQ_OPTIONS[@]}" "$@"
     build_from_github libbitcoin secp256k1 version5 $PARALLEL ${SECP256K1_OPTIONS[@]} "$@"
-    build_from_github libbitcoin libbitcoin master $PARALLEL ${BITCOIN_OPTIONS[@]} "$@"
+    build_from_github libbitcoin libbitcoin-system master $PARALLEL ${BITCOIN_SYSTEM_OPTIONS[@]} "$@"
     build_from_github libbitcoin libbitcoin-protocol master $PARALLEL ${BITCOIN_PROTOCOL_OPTIONS[@]} "$@"
     build_from_github libbitcoin libbitcoin-client master $PARALLEL ${BITCOIN_CLIENT_OPTIONS[@]} "$@"
     build_from_github libbitcoin libbitcoin-network master $PARALLEL ${BITCOIN_NETWORK_OPTIONS[@]} "$@"

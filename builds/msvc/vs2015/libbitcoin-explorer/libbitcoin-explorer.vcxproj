@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- |  Copyright (c) 2014-2015 libbitcoin-explorer developers (see COPYING).
+ |  Copyright (c) 2014-2019 libbitcoin-explorer developers (see COPYING).
  |
  |         GENERATED SOURCE CODE, DO NOT EDIT EXCEPT EXPERIMENTALLY
  |
@@ -77,6 +77,7 @@
     <ClCompile Include="..\..\..\..\src\commands\address-decode.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\address-embed.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\address-encode.cpp" />
+    <ClCompile Include="..\..\..\..\src\commands\address-to-key.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\base16-decode.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\base16-encode.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\base58-decode.cpp" />
@@ -110,6 +111,9 @@
     <ClCompile Include="..\..\..\..\src\commands\electrum-new.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\electrum-to-seed.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\fetch-balance.cpp" />
+    <ClCompile Include="..\..\..\..\src\commands\fetch-block-hashes.cpp" />
+    <ClCompile Include="..\..\..\..\src\commands\fetch-block-height.cpp" />
+    <ClCompile Include="..\..\..\..\src\commands\fetch-block.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\fetch-header.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\fetch-height.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\fetch-history.cpp" />
@@ -141,6 +145,7 @@
     <ClCompile Include="..\..\..\..\src\commands\script-decode.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\script-encode.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\script-to-address.cpp" />
+    <ClCompile Include="..\..\..\..\src\commands\script-to-key.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\seed.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\send-tx-node.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\send-tx-p2p.cpp" />
@@ -163,7 +168,8 @@
     <ClCompile Include="..\..\..\..\src\commands\uri-decode.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\uri-encode.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\validate-tx.cpp" />
-    <ClCompile Include="..\..\..\..\src\commands\watch-address.cpp" />
+    <ClCompile Include="..\..\..\..\src\commands\version.cpp" />
+    <ClCompile Include="..\..\..\..\src\commands\watch-key.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\watch-stealth.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\watch-tx.cpp" />
     <ClCompile Include="..\..\..\..\src\commands\wif-to-ec.cpp" />
@@ -199,6 +205,7 @@
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\address-decode.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\address-embed.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\address-encode.hpp" />
+    <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\address-to-key.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\base16-decode.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\base16-encode.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\base58-decode.hpp" />
@@ -232,6 +239,9 @@
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\electrum-new.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\electrum-to-seed.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\fetch-balance.hpp" />
+    <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\fetch-block-hashes.hpp" />
+    <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\fetch-block-height.hpp" />
+    <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\fetch-block.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\fetch-header.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\fetch-height.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\fetch-history.hpp" />
@@ -263,6 +273,7 @@
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\script-decode.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\script-encode.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\script-to-address.hpp" />
+    <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\script-to-key.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\seed.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\send-tx-node.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\send-tx-p2p.hpp" />
@@ -285,7 +296,9 @@
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\uri-decode.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\uri-encode.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\validate-tx.hpp" />
+    <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\version.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\watch-address.hpp" />
+    <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\watch-key.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\watch-stealth.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\watch-tx.hpp" />
     <ClInclude Include="..\..\..\..\include\bitcoin\explorer\commands\wif-to-ec.hpp" />

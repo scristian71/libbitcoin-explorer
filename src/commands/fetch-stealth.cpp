@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
+ * Copyright (c) 2011-2019 libbitcoin developers (see AUTHORS)
  *
  * This file is part of libbitcoin.
  *
@@ -30,10 +30,12 @@
 namespace libbitcoin {
 namespace explorer {
 namespace commands {
-using namespace bc::chain;
+
 using namespace bc::client;
 using namespace bc::explorer::config;
-using namespace bc::wallet;
+using namespace bc::system;
+using namespace bc::system::chain;
+using namespace bc::system::wallet;
 
 console_result fetch_stealth::invoke(std::ostream& output, std::ostream& error)
 {

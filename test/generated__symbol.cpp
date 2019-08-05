@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
+ * Copyright (c) 2011-2019 libbitcoin developers (see AUTHORS)
  *
  * This file is part of libbitcoin.
  *
@@ -41,6 +41,11 @@ BOOST_AUTO_TEST_CASE(generated__symbol__address_embed__returns_expected_value)
 BOOST_AUTO_TEST_CASE(generated__symbol__address_encode__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(address_encode::symbol(), "address-encode");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__address_to_key__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(address_to_key::symbol(), "address-to-key");
 }
 
 BOOST_AUTO_TEST_CASE(generated__symbol__base16_decode__returns_expected_value)
@@ -208,6 +213,21 @@ BOOST_AUTO_TEST_CASE(generated__symbol__fetch_balance__returns_expected_value)
     BOOST_REQUIRE_EQUAL(fetch_balance::symbol(), "fetch-balance");
 }
 
+BOOST_AUTO_TEST_CASE(generated__symbol__fetch_block__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(fetch_block::symbol(), "fetch-block");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__fetch_block_hashes__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(fetch_block_hashes::symbol(), "fetch-block-hashes");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__fetch_block_height__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(fetch_block_height::symbol(), "fetch-block-height");
+}
+
 BOOST_AUTO_TEST_CASE(generated__symbol__fetch_header__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(fetch_header::symbol(), "fetch-header");
@@ -363,6 +383,11 @@ BOOST_AUTO_TEST_CASE(generated__symbol__script_to_address__returns_expected_valu
     BOOST_REQUIRE_EQUAL(script_to_address::symbol(), "script-to-address");
 }
 
+BOOST_AUTO_TEST_CASE(generated__symbol__script_to_key__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(script_to_key::symbol(), "script-to-key");
+}
+
 BOOST_AUTO_TEST_CASE(generated__symbol__seed__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(seed::symbol(), "seed");
@@ -473,9 +498,14 @@ BOOST_AUTO_TEST_CASE(generated__symbol__validate_tx__returns_expected_value)
     BOOST_REQUIRE_EQUAL(validate_tx::symbol(), "validate-tx");
 }
 
-BOOST_AUTO_TEST_CASE(generated__symbol__watch_address__returns_expected_value)
+BOOST_AUTO_TEST_CASE(generated__symbol__version__returns_expected_value)
 {
-    BOOST_REQUIRE_EQUAL(watch_address::symbol(), "watch-address");
+    BOOST_REQUIRE_EQUAL(version::symbol(), "version");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__watch_key__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(watch_key::symbol(), "watch-key");
 }
 
 BOOST_AUTO_TEST_CASE(generated__symbol__watch_stealth__returns_expected_value)

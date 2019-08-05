@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
+ * Copyright (c) 2011-2019 libbitcoin developers (see AUTHORS)
  *
  * This file is part of libbitcoin.
  *
@@ -32,9 +32,11 @@
 namespace libbitcoin {
 namespace explorer {
 namespace commands {
+
 using namespace bc::client;
 using namespace bc::explorer::config;
-using namespace bc::wallet;
+using namespace bc::system;
+using namespace bc::system::wallet;
 
 static void handle_signal(int signal)
 {
@@ -85,7 +87,6 @@ console_result watch_stealth::invoke(std::ostream& output, std::ostream& error)
     };
 
     client.subscribe_stealth(on_update, prefix);
-    client.wait();
 
     if (state.stopped())
         return state.get_result();
@@ -94,8 +95,6 @@ console_result watch_stealth::invoke(std::ostream& output, std::ostream& error)
     signal(SIGTERM, handle_signal);
     signal(SIGINT, handle_signal);
 
-    // Handle updates until monitoring duration expires.
-    // TODO: revise client to allow for stop notification from another thread.
     client.monitor(duration_seconds * 1000);
 
     return state.get_result();

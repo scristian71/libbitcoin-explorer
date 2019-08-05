@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2017 libbitcoin developers (see AUTHORS)
+ * Copyright (c) 2011-2019 libbitcoin developers (see AUTHORS)
  *
  * This file is part of libbitcoin.
  *
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <bitcoin/explorer/commands/watch-address.hpp>
+#include <bitcoin/explorer/commands/watch-key.hpp>
 
 #include <csignal>
 #include <cstddef>
@@ -32,9 +32,11 @@
 namespace libbitcoin {
 namespace explorer {
 namespace commands {
+
 using namespace bc::client;
 using namespace bc::explorer::config;
-using namespace bc::wallet;
+using namespace bc::system;
+using namespace bc::system::wallet;
 
 static void handle_signal(int signal)
 {
@@ -44,10 +46,10 @@ static void handle_signal(int signal)
 
 // This command only halts on failure or timeout.
 // BUGBUG: the server may drop the connection, which is not presently detected.
-console_result watch_address::invoke(std::ostream& output, std::ostream& error)
+console_result watch_key::invoke(std::ostream& output, std::ostream& error)
 {
     // Bound parameters.
-    const auto& address = get_payment_address_argument();
+    const hash_digest& key = get_hash_argument();
     const auto connection = get_connection(*this);
     const auto duration_seconds = get_duration_option();
 
@@ -60,13 +62,15 @@ console_result watch_address::invoke(std::ostream& output, std::ostream& error)
 
     callback_state state(error, output);
 
-    auto on_update = [&output, &state, &address](const code& ec,
+    auto on_update = [&output, &state, &key](const code& ec,
         uint16_t sequence, size_t height, const hash_digest& tx_hash)
     {
         if (!state.succeeded(ec))
             return;
 
-        state.output(format(BX_WATCH_ADDRESS_WAITING) % address);
+        if (tx_hash == null_hash)
+            state.output(format(BX_WATCH_KEY_WAITING) % encode_base16(key));
+
         ++state;
 
         if (sequence > 0 && tx_hash != null_hash)
@@ -75,8 +79,7 @@ console_result watch_address::invoke(std::ostream& output, std::ostream& error)
                 << std::endl;
     };
 
-    client.subscribe_address(on_update, address);
-    client.wait();
+    client.subscribe_key(on_update, key);
 
     if (state.stopped())
         return state.get_result();
@@ -85,8 +88,6 @@ console_result watch_address::invoke(std::ostream& output, std::ostream& error)
     signal(SIGTERM, handle_signal);
     signal(SIGINT, handle_signal);
 
-    // Handle updates until monitoring duration expires.
-    // TODO: revise client to allow for stop notification from another thread.
     client.monitor(duration_seconds * 1000);
 
     return state.get_result();
