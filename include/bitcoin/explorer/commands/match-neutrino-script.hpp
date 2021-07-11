@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef BX_SEND_TX_P2P_HPP
-#define BX_SEND_TX_P2P_HPP
+#ifndef BX_MATCH_NEUTRINO_SCRIPT_HPP
+#define BX_MATCH_NEUTRINO_SCRIPT_HPP
 
 #include <cstdint>
 #include <iostream>
@@ -29,6 +29,7 @@
 #include <bitcoin/explorer/define.hpp>
 #include <bitcoin/explorer/generated.hpp>
 #include <bitcoin/explorer/config/address.hpp>
+#include <bitcoin/explorer/config/address_format.hpp>
 #include <bitcoin/explorer/config/algorithm.hpp>
 #include <bitcoin/explorer/config/btc.hpp>
 #include <bitcoin/explorer/config/byte.hpp>
@@ -54,13 +55,17 @@ namespace commands {
 /**
  * Various localizable strings.
  */
-#define BX_SEND_TX_P2P_OUTPUT \
-    "Sent transaction."
+#define BX_FILTER_TYPE_UNRECOGNIZED \
+    "The filter provided contains an unrecognized type."
+#define BX_FILTER_MATCH_SCRIPT_SUCCESS \
+    "Script matched filter."
+#define BX_FILTER_MATCH_SCRIPT_FAILURE \
+    "Script does not match filter."
 
 /**
- * Class to implement the send-tx-p2p command.
+ * Class to implement the match-neutrino-script command.
  */
-class BCX_API send_tx_p2p
+class BCX_API match_neutrino_script
   : public command
 {
 public:
@@ -70,15 +75,15 @@ public:
      */
     static const char* symbol()
     {
-        return "send-tx-p2p";
+        return "match-neutrino-script";
     }
 
+
     /**
-     * The symbolic (not localizable) former command name, lower case.
+     * Destructor.
      */
-    static const char* formerly()
+    virtual ~match_neutrino_script()
     {
-        return "sendtx-p2p";
     }
 
     /**
@@ -86,7 +91,7 @@ public:
      */
     virtual const char* name()
     {
-        return send_tx_p2p::symbol();
+        return match_neutrino_script::symbol();
     }
 
     /**
@@ -94,7 +99,7 @@ public:
      */
     virtual const char* category()
     {
-        return "ONLINE";
+        return "MATH";
     }
 
     /**
@@ -102,7 +107,7 @@ public:
      */
     virtual const char* description()
     {
-        return "Broadcast a transaction to the Bitcoin network via the Bitcoin peer-to-peer network.";
+        return "Determine whether the provided filter probabilistically matches the provided script.";
     }
 
     /**
@@ -113,7 +118,8 @@ public:
     virtual system::arguments_metadata& load_arguments()
     {
         return get_argument_metadata()
-            .add("TRANSACTION", 1);
+            .add("COMPACT_FILTER", 1)
+            .add("SCRIPT", 1);
     }
 
     /**
@@ -125,7 +131,7 @@ public:
         po::variables_map& variables)
     {
         const auto raw = requires_raw_input();
-        load_input(get_transaction_argument(), "TRANSACTION", variables, input, raw);
+        load_input(get_script_argument(), "SCRIPT", variables, input, raw);
     }
 
     /**
@@ -149,14 +155,14 @@ public:
             "The path to the configuration settings file."
         )
         (
-            "nodes,n",
-            value<size_t>(&option_.nodes)->default_value(2),
-            "The number of network nodes to send the transaction to, defaults to 2."
+            "COMPACT_FILTER",
+            value<system::config::compact_filter>(&argument_.compact_filter)->required(),
+            "The neutrino filter to be evaluated."
         )
         (
-            "TRANSACTION",
-            value<system::config::transaction>(&argument_.transaction),
-            "The Base16 transaction to send. If not specified the transaction is read from STDIN."
+            "SCRIPT",
+            value<system::config::script>(&argument_.script),
+            "The script whose membership is in question."
         );
 
         return options;
@@ -182,37 +188,37 @@ public:
     /* Properties */
 
     /**
-     * Get the value of the TRANSACTION argument.
+     * Get the value of the COMPACT_FILTER argument.
      */
-    virtual system::config::transaction& get_transaction_argument()
+    virtual system::config::compact_filter& get_compact_filter_argument()
     {
-        return argument_.transaction;
+        return argument_.compact_filter;
     }
 
     /**
-     * Set the value of the TRANSACTION argument.
+     * Set the value of the COMPACT_FILTER argument.
      */
-    virtual void set_transaction_argument(
-        const system::config::transaction& value)
+    virtual void set_compact_filter_argument(
+        const system::config::compact_filter& value)
     {
-        argument_.transaction = value;
+        argument_.compact_filter = value;
     }
 
     /**
-     * Get the value of the nodes option.
+     * Get the value of the SCRIPT argument.
      */
-    virtual size_t& get_nodes_option()
+    virtual system::config::script& get_script_argument()
     {
-        return option_.nodes;
+        return argument_.script;
     }
 
     /**
-     * Set the value of the nodes option.
+     * Set the value of the SCRIPT argument.
      */
-    virtual void set_nodes_option(
-        const size_t& value)
+    virtual void set_script_argument(
+        const system::config::script& value)
     {
-        option_.nodes = value;
+        argument_.script = value;
     }
 
 private:
@@ -225,11 +231,13 @@ private:
     struct argument
     {
         argument()
-          : transaction()
+          : compact_filter(),
+            script()
         {
         }
 
-        system::config::transaction transaction;
+        system::config::compact_filter compact_filter;
+        system::config::script script;
     } argument_;
 
     /**
@@ -240,11 +248,9 @@ private:
     struct option
     {
         option()
-          : nodes()
         {
         }
 
-        size_t nodes;
     } option_;
 };
 

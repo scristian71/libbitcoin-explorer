@@ -1,5 +1,5 @@
 ###############################################################################
-#  Copyright (c) 2014-2019 libbitcoin-explorer developers (see COPYING).
+#  Copyright (c) 2014-2020 libbitcoin-explorer developers (see COPYING).
 #
 #         GENERATED SOURCE CODE, DO NOT EDIT EXCEPT EXPERIMENTALLY
 #
@@ -100,7 +100,7 @@ endif()
 
 # Find boost
 #------------------------------------------------------------------------------
-find_package( Boost 1.62.0 REQUIRED COMPONENTS
+find_package( Boost 1.72.0 REQUIRED COMPONENTS
     unit_test_framework )
 
 set( boost_unit_test_framework_LIBS "-lboost_unit_test_framework" )
@@ -151,12 +151,12 @@ endif()
 # Define project common library directories
 #------------------------------------------------------------------------------
 if (BUILD_SHARED_LIBS)
-    link_directories( 
+    link_directories(
         ${bitcoin_client_LIBRARY_DIRS}
         ${bitcoin_network_LIBRARY_DIRS}
         ${dl_LIBRARY_DIRS} )
 else()
-    link_directories( 
+    link_directories(
         ${bitcoin_client_STATIC_LIBRARY_DIRS}
         ${bitcoin_network_STATIC_LIBRARY_DIRS}
         ${dl_LIBRARY_DIRS} )
@@ -165,14 +165,14 @@ endif()
 # Define project common libraries/linker flags.
 #------------------------------------------------------------------------------
 if (BUILD_SHARED_LIBS)
-    link_libraries( 
+    link_libraries(
         "-fstack-protector"
         "-fstack-protector-all"
         ${bitcoin_client_LIBRARIES}
         ${bitcoin_network_LIBRARIES}
         ${dl_LIBRARIES} )
 else()
-    link_libraries( 
+    link_libraries(
         "-fstack-protector"
         "-fstack-protector-all"
         ${bitcoin_client_STATIC_LIBRARIES}
@@ -180,7 +180,7 @@ else()
         ${dl_LIBRARIES} )
 endif()
 
-add_definitions( 
+add_definitions(
     -DSYSCONFDIR=\"${sysconfdir}\" )
 
 # Define ${CANONICAL_LIB_NAME} project.
@@ -207,6 +207,7 @@ add_library( ${CANONICAL_LIB_NAME}
     "../../src/commands/base64-encode.cpp"
     "../../src/commands/bitcoin160.cpp"
     "../../src/commands/bitcoin256.cpp"
+    "../../src/commands/broadcast-tx.cpp"
     "../../src/commands/btc-to-satoshi.cpp"
     "../../src/commands/cert-new.cpp"
     "../../src/commands/cert-public.cpp"
@@ -220,6 +221,7 @@ add_library( ${CANONICAL_LIB_NAME}
     "../../src/commands/ec-to-ek.cpp"
     "../../src/commands/ec-to-public.cpp"
     "../../src/commands/ec-to-wif.cpp"
+    "../../src/commands/ec-to-witness.cpp"
     "../../src/commands/ek-address.cpp"
     "../../src/commands/ek-new.cpp"
     "../../src/commands/ek-public-to-address.cpp"
@@ -233,14 +235,19 @@ add_library( ${CANONICAL_LIB_NAME}
     "../../src/commands/fetch-block-hashes.cpp"
     "../../src/commands/fetch-block-height.cpp"
     "../../src/commands/fetch-block.cpp"
+    "../../src/commands/fetch-filter-checkpoint.cpp"
+    "../../src/commands/fetch-filter-headers.cpp"
+    "../../src/commands/fetch-filter.cpp"
     "../../src/commands/fetch-header.cpp"
     "../../src/commands/fetch-height.cpp"
     "../../src/commands/fetch-history.cpp"
     "../../src/commands/fetch-public-key.cpp"
-    "../../src/commands/fetch-stealth.cpp"
     "../../src/commands/fetch-tx-index.cpp"
     "../../src/commands/fetch-tx.cpp"
     "../../src/commands/fetch-utxo.cpp"
+    "../../src/commands/get-filter-checkpoint.cpp"
+    "../../src/commands/get-filter-headers.cpp"
+    "../../src/commands/get-filters.cpp"
     "../../src/commands/hd-new.cpp"
     "../../src/commands/hd-private.cpp"
     "../../src/commands/hd-public.cpp"
@@ -252,12 +259,15 @@ add_library( ${CANONICAL_LIB_NAME}
     "../../src/commands/input-set.cpp"
     "../../src/commands/input-sign.cpp"
     "../../src/commands/input-validate.cpp"
+    "../../src/commands/match-neutrino-address.cpp"
+    "../../src/commands/match-neutrino-script.cpp"
     "../../src/commands/message-sign.cpp"
     "../../src/commands/message-validate.cpp"
     "../../src/commands/mnemonic-decode.cpp"
     "../../src/commands/mnemonic-encode.cpp"
     "../../src/commands/mnemonic-new.cpp"
     "../../src/commands/mnemonic-to-seed.cpp"
+    "../../src/commands/put-tx.cpp"
     "../../src/commands/qrcode.cpp"
     "../../src/commands/ripemd160.cpp"
     "../../src/commands/satoshi-to-btc.cpp"
@@ -266,8 +276,6 @@ add_library( ${CANONICAL_LIB_NAME}
     "../../src/commands/script-to-address.cpp"
     "../../src/commands/script-to-key.cpp"
     "../../src/commands/seed.cpp"
-    "../../src/commands/send-tx-node.cpp"
-    "../../src/commands/send-tx-p2p.cpp"
     "../../src/commands/send-tx.cpp"
     "../../src/commands/settings.cpp"
     "../../src/commands/sha160.cpp"
@@ -289,13 +297,14 @@ add_library( ${CANONICAL_LIB_NAME}
     "../../src/commands/validate-tx.cpp"
     "../../src/commands/version.cpp"
     "../../src/commands/watch-key.cpp"
-    "../../src/commands/watch-stealth.cpp"
     "../../src/commands/watch-tx.cpp"
     "../../src/commands/wif-to-ec.cpp"
     "../../src/commands/wif-to-public.cpp"
+    "../../src/commands/witness-to-key.cpp"
     "../../src/commands/wrap-decode.cpp"
     "../../src/commands/wrap-encode.cpp"
     "../../src/config/address.cpp"
+    "../../src/config/address_format.cpp"
     "../../src/config/algorithm.cpp"
     "../../src/config/btc.cpp"
     "../../src/config/byte.cpp"
@@ -386,6 +395,7 @@ if (with-tests)
         "../../test/commands/base64-encode.cpp"
         "../../test/commands/bitcoin160.cpp"
         "../../test/commands/bitcoin256.cpp"
+        "../../test/commands/broadcast-tx.cpp"
         "../../test/commands/btc-to-satoshi.cpp"
         "../../test/commands/cert-new.cpp"
         "../../test/commands/cert-public.cpp"
@@ -400,6 +410,7 @@ if (with-tests)
         "../../test/commands/ec-to-ek.cpp"
         "../../test/commands/ec-to-public.cpp"
         "../../test/commands/ec-to-wif.cpp"
+        "../../test/commands/ec-to-witness.cpp"
         "../../test/commands/ek-address.cpp"
         "../../test/commands/ek-new.cpp"
         "../../test/commands/ek-public-to-address.cpp"
@@ -415,10 +426,12 @@ if (with-tests)
         "../../test/commands/fetch-height.cpp"
         "../../test/commands/fetch-history.cpp"
         "../../test/commands/fetch-public-key.cpp"
-        "../../test/commands/fetch-stealth.cpp"
         "../../test/commands/fetch-tx-index.cpp"
         "../../test/commands/fetch-tx.cpp"
         "../../test/commands/fetch-utxo.cpp"
+        "../../test/commands/get-filter-checkpoint.cpp"
+        "../../test/commands/get-filter-headers.cpp"
+        "../../test/commands/get-filters.cpp"
         "../../test/commands/hd-new.cpp"
         "../../test/commands/hd-private.cpp"
         "../../test/commands/hd-public.cpp"
@@ -430,12 +443,15 @@ if (with-tests)
         "../../test/commands/input-set.cpp"
         "../../test/commands/input-sign.cpp"
         "../../test/commands/input-validate.cpp"
+        "../../test/commands/match-neutrino-address.cpp"
+        "../../test/commands/match-neutrino-script.cpp"
         "../../test/commands/message-sign.cpp"
         "../../test/commands/message-validate.cpp"
         "../../test/commands/mnemonic-decode.cpp"
         "../../test/commands/mnemonic-encode.cpp"
         "../../test/commands/mnemonic-new.cpp"
         "../../test/commands/mnemonic-to-seed.cpp"
+        "../../test/commands/put-tx.cpp"
         "../../test/commands/qrcode.cpp"
         "../../test/commands/ripemd160.cpp"
         "../../test/commands/satoshi-to-btc.cpp"
@@ -444,8 +460,6 @@ if (with-tests)
         "../../test/commands/script-to-address.cpp"
         "../../test/commands/script-to-key.cpp"
         "../../test/commands/seed.cpp"
-        "../../test/commands/send-tx-node.cpp"
-        "../../test/commands/send-tx-p2p.cpp"
         "../../test/commands/send-tx.cpp"
         "../../test/commands/settings.cpp"
         "../../test/commands/sha160.cpp"
@@ -466,10 +480,10 @@ if (with-tests)
         "../../test/commands/uri-encode.cpp"
         "../../test/commands/validate-tx.cpp"
         "../../test/commands/watch-key.cpp"
-        "../../test/commands/watch-stealth.cpp"
         "../../test/commands/watch-tx.cpp"
         "../../test/commands/wif-to-ec.cpp"
         "../../test/commands/wif-to-public.cpp"
+        "../../test/commands/witness-to-key.cpp"
         "../../test/commands/wrap-decode.cpp"
         "../../test/commands/wrap-encode.cpp"
         "../../test/config/address.cpp" )
@@ -548,7 +562,9 @@ endif()
 
 # Manage data installation for sysconf prefixed product.
 #------------------------------------------------------------------------------
-install( FILES
-    "../../data/bx.cfg"
-    DESTINATION etc/libbitcoin )
+if (with-console)
+    install( FILES
+        "../../data/bx.cfg"
+        DESTINATION etc/libbitcoin )
+endif()
 

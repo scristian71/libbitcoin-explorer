@@ -17,27 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Sponsored in part by Digital Contract Design, LLC
+
 #include "command.hpp"
 
 BX_USING_NAMESPACES()
 
 BOOST_AUTO_TEST_SUITE(network)
-BOOST_AUTO_TEST_SUITE(send_tx_node__invoke)
+BOOST_AUTO_TEST_SUITE(get_filter_headers__invoke)
 
-#define SEND_TX_NODE_A \
-"0100000001b3807042c92f449bbf79b33ca59d7dfec7f4cc71096704a9c526dddf496ee097010000006a473044022039a36013301597daef41fbe593a02cc513d0b55527ec2df1050e2e8ff49c85c202201035fe810e283bcf394485c6a9dfd117ad9f684cdd83d36453718f5d0491b9dd012103c40cbd64c9c608df2c9730f49b0888c4db1c436e8b2b74aead6c6afbd10428c0ffffffff01905f0100000000001976a91418c0bd8d1818f1bf99cb1df2269c645318ef7b7388ac00000000"
+#define BLOCK_49291_HASH "0000000018b07dca1b28b4b5a119f6d6e71698ce1ed96f143f54179ce177a19c"
 
-BOOST_AUTO_TEST_CASE(send_tx_node__invoke__mainnet__success)
+BOOST_AUTO_TEST_CASE(get_filter_headers__invoke__mainnet__success)
 {
-    BX_DECLARE_PEER_COMMAND(send_tx_node);
+    BX_DECLARE_PEER_COMMAND(get_filter_headers);
 
     // Send p2p log output to /dev/null.
     log::initialize();
 
     command.set_host_option(BX_MAINNET_HOST);
     command.set_port_option(BX_MAINNET_PORT);
-    command.set_transaction_argument({ SEND_TX_NODE_A });
-    BX_REQUIRE_OKAY(command.invoke(output, error));
+    command.set_hash_argument({ BLOCK_49291_HASH });
+    command.set_height_argument(49250);
+//    command.set_filter_type_argument(0);
+
+    // Currently expecting failure due to service bit absence
+    BX_REQUIRE_FAILURE(command.invoke(output, error));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

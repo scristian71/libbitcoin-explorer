@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef BX_SEND_TX_NODE_HPP
-#define BX_SEND_TX_NODE_HPP
+#ifndef BX_WITNESS_TO_KEY_HPP
+#define BX_WITNESS_TO_KEY_HPP
 
 #include <cstdint>
 #include <iostream>
@@ -29,6 +29,7 @@
 #include <bitcoin/explorer/define.hpp>
 #include <bitcoin/explorer/generated.hpp>
 #include <bitcoin/explorer/config/address.hpp>
+#include <bitcoin/explorer/config/address_format.hpp>
 #include <bitcoin/explorer/config/algorithm.hpp>
 #include <bitcoin/explorer/config/btc.hpp>
 #include <bitcoin/explorer/config/byte.hpp>
@@ -52,15 +53,9 @@ namespace explorer {
 namespace commands {
 
 /**
- * Various localizable strings.
+ * Class to implement the witness-to-key command.
  */
-#define BX_SEND_TX_NODE_OUTPUT \
-    "Sent transaction."
-
-/**
- * Class to implement the send-tx-node command.
- */
-class BCX_API send_tx_node
+class BCX_API witness_to_key
   : public command
 {
 public:
@@ -70,15 +65,15 @@ public:
      */
     static const char* symbol()
     {
-        return "send-tx-node";
+        return "witness-to-key";
     }
 
+
     /**
-     * The symbolic (not localizable) former command name, lower case.
+     * Destructor.
      */
-    static const char* formerly()
+    virtual ~witness_to_key()
     {
-        return "sendtx-node";
     }
 
     /**
@@ -86,7 +81,7 @@ public:
      */
     virtual const char* name()
     {
-        return send_tx_node::symbol();
+        return witness_to_key::symbol();
     }
 
     /**
@@ -94,7 +89,7 @@ public:
      */
     virtual const char* category()
     {
-        return "ONLINE";
+        return "WALLET";
     }
 
     /**
@@ -102,7 +97,7 @@ public:
      */
     virtual const char* description()
     {
-        return "Broadcast a transaction to the Bitcoin network via a single Bitcoin network node.";
+        return "Derive the payments search key of a witness address.";
     }
 
     /**
@@ -113,7 +108,7 @@ public:
     virtual system::arguments_metadata& load_arguments()
     {
         return get_argument_metadata()
-            .add("TRANSACTION", 1);
+            .add("WITNESS_ADDRESS", 1);
     }
 
     /**
@@ -125,7 +120,7 @@ public:
         po::variables_map& variables)
     {
         const auto raw = requires_raw_input();
-        load_input(get_transaction_argument(), "TRANSACTION", variables, input, raw);
+        load_input(get_witness_address_argument(), "WITNESS_ADDRESS", variables, input, raw);
     }
 
     /**
@@ -149,19 +144,9 @@ public:
             "The path to the configuration settings file."
         )
         (
-            "host,t",
-            value<std::string>(&option_.host)->default_value("localhost"),
-            "The IP address or DNS name of the node. Defaults to localhost."
-        )
-        (
-            "port,p",
-            value<uint16_t>(&option_.port)->default_value(8333),
-            "The IP port of the Bitcoin service on the node. Defaults to 8333, the standard for mainnet."
-        )
-        (
-            "TRANSACTION",
-            value<system::config::transaction>(&argument_.transaction),
-            "The Base16 transaction to send. If not specified the transaction is read from STDIN."
+            "WITNESS_ADDRESS",
+            value<system::wallet::witness_address>(&argument_.witness_address),
+            "The witness address. If not specified the address is read from STDIN."
         );
 
         return options;
@@ -187,54 +172,20 @@ public:
     /* Properties */
 
     /**
-     * Get the value of the TRANSACTION argument.
+     * Get the value of the WITNESS_ADDRESS argument.
      */
-    virtual system::config::transaction& get_transaction_argument()
+    virtual system::wallet::witness_address& get_witness_address_argument()
     {
-        return argument_.transaction;
+        return argument_.witness_address;
     }
 
     /**
-     * Set the value of the TRANSACTION argument.
+     * Set the value of the WITNESS_ADDRESS argument.
      */
-    virtual void set_transaction_argument(
-        const system::config::transaction& value)
+    virtual void set_witness_address_argument(
+        const system::wallet::witness_address& value)
     {
-        argument_.transaction = value;
-    }
-
-    /**
-     * Get the value of the host option.
-     */
-    virtual std::string& get_host_option()
-    {
-        return option_.host;
-    }
-
-    /**
-     * Set the value of the host option.
-     */
-    virtual void set_host_option(
-        const std::string& value)
-    {
-        option_.host = value;
-    }
-
-    /**
-     * Get the value of the port option.
-     */
-    virtual uint16_t& get_port_option()
-    {
-        return option_.port;
-    }
-
-    /**
-     * Set the value of the port option.
-     */
-    virtual void set_port_option(
-        const uint16_t& value)
-    {
-        option_.port = value;
+        argument_.witness_address = value;
     }
 
 private:
@@ -247,11 +198,11 @@ private:
     struct argument
     {
         argument()
-          : transaction()
+          : witness_address()
         {
         }
 
-        system::config::transaction transaction;
+        system::wallet::witness_address witness_address;
     } argument_;
 
     /**
@@ -262,13 +213,9 @@ private:
     struct option
     {
         option()
-          : host(),
-            port()
         {
         }
 
-        std::string host;
-        uint16_t port;
     } option_;
 };
 

@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef BX_FETCH_STEALTH_HPP
-#define BX_FETCH_STEALTH_HPP
+#ifndef BX_BROADCAST_TX_HPP
+#define BX_BROADCAST_TX_HPP
 
 #include <cstdint>
 #include <iostream>
@@ -29,6 +29,7 @@
 #include <bitcoin/explorer/define.hpp>
 #include <bitcoin/explorer/generated.hpp>
 #include <bitcoin/explorer/config/address.hpp>
+#include <bitcoin/explorer/config/address_format.hpp>
 #include <bitcoin/explorer/config/algorithm.hpp>
 #include <bitcoin/explorer/config/btc.hpp>
 #include <bitcoin/explorer/config/byte.hpp>
@@ -54,15 +55,13 @@ namespace commands {
 /**
  * Various localizable strings.
  */
-#define BX_FETCH_STEALTH_PREFIX_TOO_LONG \
-    "Stealth prefix is limited to 32 bits."
-#define BX_FETCH_STEALTH_FILTER_TOO_SHORT \
-    "Stealth prefix must be at least 8 bits."
+#define BX_SEND_TX_P2P_OUTPUT \
+    "Sent transaction."
 
 /**
- * Class to implement the fetch-stealth command.
+ * Class to implement the broadcast-tx command.
  */
-class BCX_API fetch_stealth
+class BCX_API broadcast_tx
   : public command
 {
 public:
@@ -72,16 +71,30 @@ public:
      */
     static const char* symbol()
     {
-        return "fetch-stealth";
+        return "broadcast-tx";
     }
 
+    /**
+     * The symbolic (not localizable) former command name, lower case.
+     */
+    static const char* formerly()
+    {
+        return "sendtx-p2p";
+    }
+
+    /**
+     * Destructor.
+     */
+    virtual ~broadcast_tx()
+    {
+    }
 
     /**
      * The member symbolic (not localizable) command name, lower case.
      */
     virtual const char* name()
     {
-        return fetch_stealth::symbol();
+        return broadcast_tx::symbol();
     }
 
     /**
@@ -97,7 +110,7 @@ public:
      */
     virtual const char* description()
     {
-        return "Get metadata on potential payment transactions by stealth prefix filter. Requires a Libbitcoin server connection.";
+        return "Broadcast a transaction to the Bitcoin network via the Bitcoin peer-to-peer network.";
     }
 
     /**
@@ -108,7 +121,7 @@ public:
     virtual system::arguments_metadata& load_arguments()
     {
         return get_argument_metadata()
-            .add("FILTER", 1);
+            .add("TRANSACTION", 1);
     }
 
     /**
@@ -119,6 +132,8 @@ public:
     virtual void load_fallbacks(std::istream& input,
         po::variables_map& variables)
     {
+        const auto raw = requires_raw_input();
+        load_input(get_transaction_argument(), "TRANSACTION", variables, input, raw);
     }
 
     /**
@@ -142,19 +157,14 @@ public:
             "The path to the configuration settings file."
         )
         (
-            "format,f",
-            value<explorer::config::encoding>(&option_.format),
-            "The output format. Options are 'info', 'json' and 'xml', defaults to 'info'."
+            "nodes,n",
+            value<size_t>(&option_.nodes)->default_value(2),
+            "The number of network nodes to send the transaction to, defaults to 2."
         )
         (
-            "height,t",
-            value<uint32_t>(&option_.height),
-            "The minimum block height of transactions to include."
-        )
-        (
-            "FILTER",
-            value<system::config::base2>(&argument_.filter),
-            "The Base2 stealth prefix filter used to locate transactions. Must be at least 8 bits in length."
+            "TRANSACTION",
+            value<system::config::transaction>(&argument_.transaction),
+            "The Base16 transaction to send. If not specified the transaction is read from STDIN."
         );
 
         return options;
@@ -180,54 +190,37 @@ public:
     /* Properties */
 
     /**
-     * Get the value of the FILTER argument.
+     * Get the value of the TRANSACTION argument.
      */
-    virtual system::config::base2& get_filter_argument()
+    virtual system::config::transaction& get_transaction_argument()
     {
-        return argument_.filter;
+        return argument_.transaction;
     }
 
     /**
-     * Set the value of the FILTER argument.
+     * Set the value of the TRANSACTION argument.
      */
-    virtual void set_filter_argument(
-        const system::config::base2& value)
+    virtual void set_transaction_argument(
+        const system::config::transaction& value)
     {
-        argument_.filter = value;
+        argument_.transaction = value;
     }
 
     /**
-     * Get the value of the format option.
+     * Get the value of the nodes option.
      */
-    virtual explorer::config::encoding& get_format_option()
+    virtual size_t& get_nodes_option()
     {
-        return option_.format;
+        return option_.nodes;
     }
 
     /**
-     * Set the value of the format option.
+     * Set the value of the nodes option.
      */
-    virtual void set_format_option(
-        const explorer::config::encoding& value)
+    virtual void set_nodes_option(
+        const size_t& value)
     {
-        option_.format = value;
-    }
-
-    /**
-     * Get the value of the height option.
-     */
-    virtual uint32_t& get_height_option()
-    {
-        return option_.height;
-    }
-
-    /**
-     * Set the value of the height option.
-     */
-    virtual void set_height_option(
-        const uint32_t& value)
-    {
-        option_.height = value;
+        option_.nodes = value;
     }
 
 private:
@@ -240,11 +233,11 @@ private:
     struct argument
     {
         argument()
-          : filter()
+          : transaction()
         {
         }
 
-        system::config::base2 filter;
+        system::config::transaction transaction;
     } argument_;
 
     /**
@@ -255,13 +248,11 @@ private:
     struct option
     {
         option()
-          : format(),
-            height()
+          : nodes()
         {
         }
 
-        explorer::config::encoding format;
-        uint32_t height;
+        size_t nodes;
     } option_;
 };
 

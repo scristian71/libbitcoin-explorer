@@ -98,6 +98,11 @@ BOOST_AUTO_TEST_CASE(generated__symbol__bitcoin256__returns_expected_value)
     BOOST_REQUIRE_EQUAL(bitcoin256::symbol(), "bitcoin256");
 }
 
+BOOST_AUTO_TEST_CASE(generated__symbol__broadcast_tx__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(broadcast_tx::symbol(), "broadcast-tx");
+}
+
 BOOST_AUTO_TEST_CASE(generated__symbol__btc_to_satoshi__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(btc_to_satoshi::symbol(), "btc-to-satoshi");
@@ -161,6 +166,11 @@ BOOST_AUTO_TEST_CASE(generated__symbol__ec_to_public__returns_expected_value)
 BOOST_AUTO_TEST_CASE(generated__symbol__ec_to_wif__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(ec_to_wif::symbol(), "ec-to-wif");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__ec_to_witness__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(ec_to_witness::symbol(), "ec-to-witness");
 }
 
 BOOST_AUTO_TEST_CASE(generated__symbol__ek_address__returns_expected_value)
@@ -228,6 +238,21 @@ BOOST_AUTO_TEST_CASE(generated__symbol__fetch_block_height__returns_expected_val
     BOOST_REQUIRE_EQUAL(fetch_block_height::symbol(), "fetch-block-height");
 }
 
+BOOST_AUTO_TEST_CASE(generated__symbol__fetch_filter__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(fetch_filter::symbol(), "fetch-filter");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__fetch_filter_checkpoint__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(fetch_filter_checkpoint::symbol(), "fetch-filter-checkpoint");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__fetch_filter_headers__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(fetch_filter_headers::symbol(), "fetch-filter-headers");
+}
+
 BOOST_AUTO_TEST_CASE(generated__symbol__fetch_header__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(fetch_header::symbol(), "fetch-header");
@@ -248,11 +273,6 @@ BOOST_AUTO_TEST_CASE(generated__symbol__fetch_public_key__returns_expected_value
     BOOST_REQUIRE_EQUAL(fetch_public_key::symbol(), "fetch-public-key");
 }
 
-BOOST_AUTO_TEST_CASE(generated__symbol__fetch_stealth__returns_expected_value)
-{
-    BOOST_REQUIRE_EQUAL(fetch_stealth::symbol(), "fetch-stealth");
-}
-
 BOOST_AUTO_TEST_CASE(generated__symbol__fetch_tx__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(fetch_tx::symbol(), "fetch-tx");
@@ -266,6 +286,21 @@ BOOST_AUTO_TEST_CASE(generated__symbol__fetch_tx_index__returns_expected_value)
 BOOST_AUTO_TEST_CASE(generated__symbol__fetch_utxo__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(fetch_utxo::symbol(), "fetch-utxo");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__get_filter_checkpoint__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(get_filter_checkpoint::symbol(), "get-filter-checkpoint");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__get_filter_headers__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(get_filter_headers::symbol(), "get-filter-headers");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__get_filters__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(get_filters::symbol(), "get-filters");
 }
 
 BOOST_AUTO_TEST_CASE(generated__symbol__hd_new__returns_expected_value)
@@ -323,6 +358,16 @@ BOOST_AUTO_TEST_CASE(generated__symbol__input_validate__returns_expected_value)
     BOOST_REQUIRE_EQUAL(input_validate::symbol(), "input-validate");
 }
 
+BOOST_AUTO_TEST_CASE(generated__symbol__match_neutrino_address__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(match_neutrino_address::symbol(), "match-neutrino-address");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__match_neutrino_script__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(match_neutrino_script::symbol(), "match-neutrino-script");
+}
+
 BOOST_AUTO_TEST_CASE(generated__symbol__message_sign__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(message_sign::symbol(), "message-sign");
@@ -351,6 +396,11 @@ BOOST_AUTO_TEST_CASE(generated__symbol__mnemonic_new__returns_expected_value)
 BOOST_AUTO_TEST_CASE(generated__symbol__mnemonic_to_seed__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(mnemonic_to_seed::symbol(), "mnemonic-to-seed");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__put_tx__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(put_tx::symbol(), "put-tx");
 }
 
 BOOST_AUTO_TEST_CASE(generated__symbol__qrcode__returns_expected_value)
@@ -396,16 +446,6 @@ BOOST_AUTO_TEST_CASE(generated__symbol__seed__returns_expected_value)
 BOOST_AUTO_TEST_CASE(generated__symbol__send_tx__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(send_tx::symbol(), "send-tx");
-}
-
-BOOST_AUTO_TEST_CASE(generated__symbol__send_tx_node__returns_expected_value)
-{
-    BOOST_REQUIRE_EQUAL(send_tx_node::symbol(), "send-tx-node");
-}
-
-BOOST_AUTO_TEST_CASE(generated__symbol__send_tx_p2p__returns_expected_value)
-{
-    BOOST_REQUIRE_EQUAL(send_tx_p2p::symbol(), "send-tx-p2p");
 }
 
 BOOST_AUTO_TEST_CASE(generated__symbol__settings__returns_expected_value)
@@ -508,11 +548,6 @@ BOOST_AUTO_TEST_CASE(generated__symbol__watch_key__returns_expected_value)
     BOOST_REQUIRE_EQUAL(watch_key::symbol(), "watch-key");
 }
 
-BOOST_AUTO_TEST_CASE(generated__symbol__watch_stealth__returns_expected_value)
-{
-    BOOST_REQUIRE_EQUAL(watch_stealth::symbol(), "watch-stealth");
-}
-
 BOOST_AUTO_TEST_CASE(generated__symbol__watch_tx__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(watch_tx::symbol(), "watch-tx");
@@ -526,6 +561,11 @@ BOOST_AUTO_TEST_CASE(generated__symbol__wif_to_ec__returns_expected_value)
 BOOST_AUTO_TEST_CASE(generated__symbol__wif_to_public__returns_expected_value)
 {
     BOOST_REQUIRE_EQUAL(wif_to_public::symbol(), "wif-to-public");
+}
+
+BOOST_AUTO_TEST_CASE(generated__symbol__witness_to_key__returns_expected_value)
+{
+    BOOST_REQUIRE_EQUAL(witness_to_key::symbol(), "witness-to-key");
 }
 
 BOOST_AUTO_TEST_CASE(generated__symbol__wrap_decode__returns_expected_value)
